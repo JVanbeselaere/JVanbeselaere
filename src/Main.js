@@ -9,6 +9,8 @@ function Main() {
     localStorage.notes ? JSON.parse(localStorage.notes) : []
   );
   const [activeNote, setActiveNote] = useState(false);
+  const [editNote, setEditNote] = useState(false);
+  const [hideSidebar, setHideSidebar] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
@@ -42,20 +44,59 @@ function Main() {
     setNotes(updatedNotesArr);
   };
 
+  const onEditNote = () => {
+    if(editNote === false){
+      setEditNote(true);
+    }
+    else if(editNote === true){
+      setEditNote(false);
+    }
+  };
+
+  const onHideSidebar = () => {
+    if(hideSidebar === false){
+      setHideSidebar(true);
+    }
+    else if(hideSidebar === true){
+      setHideSidebar(false);
+    }
+  };
+
   const getActiveNote = () => {
     return notes.find(({ id }) => id === activeNote);
   };
 
   return (
-    <div className="App">
-      <Sidebar
-        notes={notes}
-        onAddNote={onAddNote}
-        onDeleteNote={onDeleteNote}
-        activeNote={activeNote}
-        setActiveNote={setActiveNote}
-      />
-      <Body activeNote={getActiveNote()} onUpdateNote={onUpdateNote} onDeleteNote={onDeleteNote} />
+    <div>
+      <section class="header">
+        <div class = "buttons">
+          <button class="menu" onClick={() => onHideSidebar()}>≡</button>
+        </div>
+        <div class = "title">
+          <h1 id="title">Lotion</h1>
+          <p>Like Notion, but worse.</p>
+        </div>
+        <div class = "spacer">
+        </div>
+      </section>
+      <hr></hr>
+      <div className="App">
+        <Sidebar
+          notes={notes}
+          onAddNote={onAddNote}
+          onDeleteNote={onDeleteNote}
+          activeNote={activeNote}
+          setActiveNote={setActiveNote}
+          hideSidebar = {hideSidebar}
+        />
+        <Body 
+          activeNote={getActiveNote()} 
+          onUpdateNote={onUpdateNote} 
+          onDeleteNote={onDeleteNote} 
+          editNote={editNote} 
+          onEditNote={onEditNote}
+        />
+      </div>
     </div>
   );
 }
