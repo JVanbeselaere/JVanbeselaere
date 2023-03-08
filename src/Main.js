@@ -29,7 +29,9 @@ function Main() {
   };
 
   const onDeleteNote = (noteId) => {
-    setNotes(notes.filter(({ id }) => id !== noteId));
+    if (window.confirm("Are you sure you want to delete this note?")){
+      setNotes(notes.filter(({ id }) => id !== noteId));
+    }
   };
 
   const onUpdateNote = (updatedNote) => {
